@@ -80,7 +80,7 @@ services:
     volumes:
       - /DockerVol/jellyfin/config:/config 
       - /DockerVol/jellyfin/cache:/cache 
-      - /mnt/Baxter/Data/Movies:/media 
+      - /nfs/Baxter/Data/Movies:/media 
     ports:
       - 8096:8096
     restart: unless-stopped
