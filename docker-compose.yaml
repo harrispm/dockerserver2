@@ -5,8 +5,8 @@ services:
     image: linuxserver/beets
     container_name: beets
     environment:
-      - PUID=1000
-      - PGID=1000
+      - PUID=1002
+      - PGID=115
       - TZ=Europe/London
     volumes:
       - /DockerVol/Beets/Config:/config
@@ -30,8 +30,8 @@ services:
     hostname: ha
     environment: 
       - TZ=America/Chicago
-      - PGID=999
-      - PUID=1001   
+      - PGID=1002
+      - PUID=115   
     devices: 
       - /dev/ttyACM0
     volumes:
@@ -54,8 +54,8 @@ services:
     hostname: heimdall
     environment: 
       - TZ=America/Chicago
-      - PGID=999
-      - PUID=1001  
+      - PGID=1002
+      - PUID=115  
     volumes:
       - /DockerVol/Heimdall/config:/config
     ports:
@@ -75,8 +75,8 @@ services:
     hostname: jellyfin
     environment: 
       - TZ=America/Chicago
-      - PGID=999
-      - PUID=1001  
+      - PGID=115
+      - PUID=1002  
     volumes:
       - /DockerVol/jellyfin/config:/config 
       - /DockerVol/jellyfin/cache:/cache 
