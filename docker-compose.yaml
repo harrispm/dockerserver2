@@ -1,26 +1,26 @@
 version: "2"
 services:
 
-  beets:
-    image: linuxserver/beets
-    container_name: beets
-    environment:
-      - PUID=1002
-      - PGID=115
-      - TZ=Europe/London
-    volumes:
-      - /DockerVol/Beets/Config:/config
-      - /nfs/Baxter/Music:/music
-      - /nfs/Baxter/Music/Downloads:/downloads
-    ports:
-      - 8337:8337
-    restart: unless-stopped
-    logging:
-      driver: gelf
-      options:
-        gelf-address: udp://graylog.home.pnclocal.com:12201 
-    labels:
-      com.centurylinklabs.watchtower.enable: "true"
+ # beets:
+ #   image: linuxserver/beets
+ #   container_name: beets
+ #   environment:
+ #     - PUID=1002
+ #     - PGID=115
+ #     - TZ=Europe/London
+ #   volumes:
+ #     - /DockerVol/Beets/Config:/config
+ #     - /nfs/Baxter/Music:/music
+ #     - /nfs/Baxter/Music/Downloads:/downloads
+ #   ports:
+ #     - 8337:8337
+ #   restart: unless-stopped
+ #   logging:
+ #     driver: gelf
+ #     options:
+ #       gelf-address: udp://graylog.home.pnclocal.com:12201 
+ #   labels:
+ #     com.centurylinklabs.watchtower.enable: "true"
 
 
 
@@ -91,26 +91,7 @@ services:
     labels:
       com.centurylinklabs.watchtower.enable: "true" 
 
-  pmanager:
-    image: porn-manager
-    container_name: pmanager
-    hostname: pmanager
-    environment: 
-      - TZ=America/Chicago
-      - PGID=115
-      - PUID=1002  
-    volumes: 
-      - /DockerVol/pmanage/config:/config
-      - /nfs/Baxter/Data/Usenet/downloads/completed
-    ports:
-      - 3000:3000
-    restart: unless-stopped
-    logging:
-      driver: gelf
-      options:
-        gelf-address: udp://graylog.home.pnclocal.com:12201 
-    labels:
-      com.centurylinklabs.watchtower.enable: "true" 
+
 
 
     
