@@ -1,0 +1,23 @@
+version: "2"
+services:
+
+  beets:
+    image: linuxserver/beets
+    container_name: beets
+    environment:
+      - PUID=1000
+      - PGID=1000
+      - TZ=Europe/London
+    volumes:
+      - /DockerVol/Beets/Config:/config
+      - /nfs/Baxter/Music:/music
+      - /nfs/Baxter/Music/Downloads:/downloads
+    ports:
+      - 8337:8337
+    restart: unless-stopped
+    logging:
+        driver: gelf
+        options:
+          gelf-address: udp://graylog.home.pnclocal.com:12201 
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
