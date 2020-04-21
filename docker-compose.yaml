@@ -16,8 +16,78 @@ services:
       - 8337:8337
     restart: unless-stopped
     logging:
-        driver: gelf
-        options:
-          gelf-address: udp://graylog.home.pnclocal.com:12201 
+      driver: gelf
+      options:
+        gelf-address: udp://graylog.home.pnclocal.com:12201 
     labels:
       com.centurylinklabs.watchtower.enable: "true"
+
+
+
+  Home Assistant:
+    image: homeassistant/home-assistant
+    container_name: "home-assistant"
+    hostname: ha
+    environment: 
+      - TZ=America/Chicago
+      - PGID=999
+      - PUID=1001   
+    device: 
+      - /dev/ttyACM0
+    volumes:
+      - /DockerVol/HA:/config 
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 8123:8123
+    restart: unless-stopped
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://graylog.home.pnclocal.com:12201 
+    labels:
+      com.centurylinklabs.watchtower.enable: "true" 
+
+
+  Heimdall:
+    image: linuxserver/heimdall
+    container_name: heimdall
+    hostname: heimdall
+    environment: 
+      - TZ=America/Chicago
+      - PGID=999
+      - PUID=1001  
+    volumes:
+      - /DockerVol/Heimdall/config:/config
+    ports:
+      - 8101:80 
+      - 8102:443
+    restart: unless-stopped
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://graylog.home.pnclocal.com:12201 
+    labels:
+      com.centurylinklabs.watchtower.enable: "true" 
+
+  jellyfin:
+    image: jellyfin/jellyfin:latest
+    container_name: jellyfin
+    hostname: jellyfin
+    environment: 
+      - TZ=America/Chicago
+      - PGID=999
+      - PUID=1001  
+    volumes:
+      - /DockerVol/jellyfin/config:/config 
+      - /DockerVol/jellyfin/cache:/cache 
+      - /mnt/Baxter/Data/Movies:/media 
+    ports:
+      - 8096:8096
+    restart: unless-stopped
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://graylog.home.pnclocal.com:12201 
+    labels:
+      com.centurylinklabs.watchtower.enable: "true" 
+
