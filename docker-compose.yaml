@@ -24,7 +24,7 @@ services:
 
 
 
-  Home Assistant:
+  Home-Assistant:
     image: homeassistant/home-assistant
     container_name: "home-assistant"
     hostname: ha
