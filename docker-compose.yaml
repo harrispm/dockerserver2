@@ -32,7 +32,7 @@ services:
       - TZ=America/Chicago
       - PGID=999
       - PUID=1001   
-    device: 
+    devices: 
       - /dev/ttyACM0
     volumes:
       - /DockerVol/HA:/config 
