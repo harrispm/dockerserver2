@@ -143,7 +143,7 @@ services:
       # GELF TCP
       - 12201:12201
       # GELF UDP
- Volumes for persisting data, see https://docs.docker.com/engine/admin/volumes/volumes/
+     # Volumes for persisting data, see https://docs.docker.com/engine/admin/volumes/volumes/
 volumes:
   mongo_data:
     driver: local
