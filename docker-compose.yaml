@@ -92,7 +92,7 @@ services:
       com.centurylinklabs.watchtower.enable: "true" 
 
 
-  # MongoDB: https://hub.docker.com/_/mongo/
+ # MongoDB: https://hub.docker.com/_/mongo/
   mongodb:
     image: mongo:3
     volumes:
@@ -126,7 +126,7 @@ services:
       - GRAYLOG_PASSWORD_SECRET=somepasswordpepper
       # Password: admin
       - GRAYLOG_ROOT_PASSWORD_SHA2=1b12de7f4069972e784d42dbe826c0769f1287412cd35479de127fcf816699dc
-      - GRAYLOG_HTTP_EXTERNAL_URI=http://127.0.0.1:9000/
+      - GRAYLOG_HTTP_EXTERNAL_URI=http://192.168.5.17:9000/
     links:
       - mongodb:mongo
       - elasticsearch
@@ -143,8 +143,7 @@ services:
       # GELF TCP
       - 12201:12201
       # GELF UDP
-      - 12201:12201/udp
-# Volumes for persisting data, see https://docs.docker.com/engine/admin/volumes/volumes/
+ Volumes for persisting data, see https://docs.docker.com/engine/admin/volumes/volumes/
 volumes:
   mongo_data:
     driver: local
@@ -152,7 +151,3 @@ volumes:
     driver: local
   graylog_journal:
     driver: local
-
-
-    
-
