@@ -81,6 +81,7 @@ services:
       - /DockerVol/jellyfin/config:/config 
       - /DockerVol/jellyfin/cache:/cache 
       - /nfs/Baxter/Data/Movies:/media 
+      - /nfs/Baxter/Data/Friday.After.Dark:/fas
     ports:
       - 8096:8096
     restart: unless-stopped
