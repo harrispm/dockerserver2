@@ -101,6 +101,7 @@ services:
       - PGID=115
       - PUID=1002  
       - ADVERTISE_IP="http://72.216.235.169:32401"
+      - PLEX_CLAIM="claim-D8WYR_j2Rj9MDY1Ktp_j"
     volumes:
       - /DockerVol/Green-Door/config:/config 
       - /DockerVol/Green-Door/transcode:/transcode 
