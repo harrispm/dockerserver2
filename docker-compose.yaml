@@ -70,6 +70,25 @@ services:
       com.centurylinklabs.watchtower.enable: "true" 
 
 
+  code-server:
+    image: linuxserver/code-server
+    container_name: code-server
+    hostname: code-server
+    environment:
+      - TZ=America/Chicago
+      - PGID=1002
+      - PUID=115
+    volumes:
+      - /DockerVol/VisualCode/config:/config
+    ports:
+      - 8453:8443
+    restart: unless-stopped
+    logging:
+      driver: gelf
+      options:
+        gelf-address: udp://graylog.home.pnclocal.com:12201
+    labels:
+      com.centurylinklabs.watchtower.enable: "true"
 
 
  # MongoDB: https://hub.docker.com/_/mongo/
@@ -131,3 +150,5 @@ volumes:
     driver: local
   graylog_journal:
     driver: local
+
+
