@@ -80,6 +80,7 @@ services:
       - PUID=115
     volumes:
       - /DockerVol/VisualCode/config:/config
+      - /DockerVol/VisualCode/code:/code
     ports:
       - 8453:8443
     restart: unless-stopped
