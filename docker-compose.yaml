@@ -24,28 +24,28 @@ services:
 
 
 
-  Home-Assistant:
-    image: homeassistant/home-assistant
-    container_name: "home-assistant"
-    hostname: ha
-    environment: 
-      - TZ=America/Chicago
-      - PGID=1002
-      - PUID=115   
-    devices: 
-      - /dev/ttyACM0
-    volumes:
-      - /DockerVol/HA:/config 
-      - /etc/localtime:/etc/localtime:ro
-    ports:
-      - 8123:8123
-    restart: unless-stopped
-    logging:
-      driver: gelf
-      options:
-        gelf-address: udp://graylog.home.pnclocal.com:12201 
-    labels:
-      com.centurylinklabs.watchtower.enable: "true" 
+        # Home-Assistant:
+        #@    image: homeassistant/home-assistant
+        #    container_name: "home-assistant"
+        #    hostname: ha
+        #    environment: 
+        #      - TZ=America/Chicago
+        #      - PGID=998
+        #      - PUID=1001   
+        #    devices: 
+        #      - /dev/ttyACM0
+        #    volumes:
+        #      - /DockerVol/HA:/config 
+        #      - /etc/localtime:/etc/localtime:ro
+        #    ports:
+        #      - 8123:8123
+        #    restart: unless-stopped
+        #    logging:
+        #      driver: gelf
+        #      options:
+        #        gelf-address: udp://graylog.home.pnclocal.com:12201 
+        #    labels:
+        #      com.centurylinklabs.watchtower.enable: "true" 
 
 
   Heimdall:
@@ -54,102 +54,44 @@ services:
     hostname: heimdall
     environment: 
       - TZ=America/Chicago
-      - PGID=1002
-      - PUID=115  
+      - PGID=998
+      - PUID=1001 
     volumes:
       - /DockerVol/Heimdall/config:/config
     ports:
       - 8101:80 
       - 8102:443
     restart: unless-stopped
-    logging:
-      driver: gelf
-      options:
-        gelf-address: udp://graylog.home.pnclocal.com:12201 
-    labels:
-      com.centurylinklabs.watchtower.enable: "true" 
+    #    logging:
+    #      driver: gelf
+    #      options:
+    #        gelf-address: udp://graylog.home.pnclocal.com:12201 
+    #    labels:
+    #      com.centurylinklabs.watchtower.enable: "true" 
 
 
-  code-server:
-    image: linuxserver/code-server
-    container_name: code-server
-    hostname: code-server
-    environment:
+
+  gitlab:
+    image: gitlab/gitlab-ee:latest
+    restart: always
+    hostname: gitlab
+    container_name: gitlab
+    environment: 
       - TZ=America/Chicago
-      - PGID=1002
-      - PUID=115
-    volumes:
-      - /DockerVol/VisualCode/config:/config
-      - /DockerVol/VisualCode/code:/code
+      - PGID=998
+      - PUID=1001 
     ports:
-      - 8453:8443
-    restart: unless-stopped
-    logging:
-      driver: gelf
-      options:
-        gelf-address: udp://graylog.home.pnclocal.com:12201
-    labels:
-      com.centurylinklabs.watchtower.enable: "true"
+      - '8022:22'
+      - 8491:80
+      - 8445:443
+        #      - 8022:22
+    volumes:
+      - /DockerVol/Gitlab/config:/etc/gitlab
+      - /DockerVol/Gitlab/logs:/var/log/gitlab
+      - /DockerVol/Gitlab/data:/var/opt/gitlab
 
 
- # MongoDB: https://hub.docker.com/_/mongo/
-  mongodb:
-    image: mongo:3
-    volumes:
-      - /DockerVol/Graylog/Mongo/data/db:/data/db
-  # Elasticsearch: https://www.elastic.co/guide/en/elasticsearch/reference/5.6/docker.html
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch-oss:6.8.5
-    volumes:
-      - es_data:/DockerVol/Graylog/elastisearch/usr/share/elasticsearch/data
-    environment:
-      - http.host=0.0.0.0
-      - transport.host=localhost
-      - network.host=0.0.0.0
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
-    ulimits:
-      memlock:
-        soft: -1
-        hard: -1
-    mem_limit: 1g
-  # Graylog: https://hub.docker.com/r/graylog/graylog/
-  graylog:
-    image: graylog/graylog:3.2
-    volumes:
-      - /DockerVol/Graylog/usr/share/graylog/data/journal:/usr/share/graylog/data/journal
-     # Mount local plugin file into Docker container
-      #- ./graylog/plugin/graylog-plugin-auth-sso-2.3.0.jar:/usr/share/graylog/plugin/graylog-plugin-auth-sso-2.3.0.jar
-     # Mount local configuration directory into Docker container
-      - /DockerVol/Graylog/config:/usr/share/graylog/data/config
-    environment:
-      # CHANGE ME (must be at least 16 characters)!
-      - GRAYLOG_PASSWORD_SECRET=somepasswordpepper
-      # Password: admin
-      - GRAYLOG_ROOT_PASSWORD_SHA2=1b12de7f4069972e784d42dbe826c0769f1287412cd35479de127fcf816699dc
-      - GRAYLOG_HTTP_EXTERNAL_URI=http://192.168.5.17:9000/
-    links:
-      - mongodb:mongo
-      - elasticsearch
-    depends_on:
-      - mongodb
-      - elasticsearch
-    ports:
-      # Graylog web interface and REST API
-      - 9000:9000
-      # Syslog TCP
-      - 1514:1514
-      # Syslog UDP
-      - 1514:1514/udp
-      # GELF TCP
-      - 12201:12201
-      # GELF UDP
-     # Volumes for persisting data, see https://docs.docker.com/engine/admin/volumes/volumes/
-volumes:
-  mongo_data:
-    driver: local
-  es_data:
-    driver: local
-  graylog_journal:
-    driver: local
+
+
 
 
