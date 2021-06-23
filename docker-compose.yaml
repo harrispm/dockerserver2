@@ -93,5 +93,21 @@ services:
 
 
 
-
+  code-server:
+    image: ghcr.io/linuxserver/code-server
+    container_name: code-server
+    environment:
+      - TZ=America/Chicago
+      - PGID=998
+      - PUID=1001
+        #- PASSWORD=password F@lcon12
+        #  - HASHED_PASSWORD= #optional
+        # - SUDO_PASSWORD=password #optional
+        # - SUDO_PASSWORD_HASH= #optional
+      - PROXY_DOMAIN=code.netgrimore.com #optional
+    volumes:
+      - /DockerVol/Code/config:/config
+    ports:
+      - 8443:8443
+    restart: unless-stopped
 
